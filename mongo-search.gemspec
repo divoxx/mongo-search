@@ -5,11 +5,10 @@ require "mongo-search/version"
 Gem::Specification.new do |s|
   s.name        = "mongo-search"
   s.version     = Mongo::Search::VERSION
-  s.authors     = ["TODO: Write your name"]
+  s.authors     = ["Rodrigo Kochenburger <divoxx@gmail.com>", "Tomas Mattia <tomas.mattia@gmail.com>"]
   s.email       = ["abril_vejasp_dev@thoughtworks.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Easy search for mongodb}
 
   s.rubyforge_project = "mongo-search"
 
