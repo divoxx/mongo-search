@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Search do
+describe "Search integration" do
   describe "Usage" do
     let :klass do
       mock(:collection => collection)
@@ -11,7 +11,7 @@ describe Search do
     end
 
     subject do
-      Search.new do |c|
+      MongoSearch::Definition.new do |c|
         c.match :name
         c.exact :status
         c.intersect :tags
