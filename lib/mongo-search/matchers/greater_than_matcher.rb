@@ -11,7 +11,7 @@ module MongoSearch
 
       def call(params)
         filters = {}
-        filters[@field] = {@operator => @conv.call(params[@attr])} if params[@attr]
+        filters[@field] = {@operator => @conv.call(params[@attr])} if params[@attr] && !params[@attr].empty?
         filters
       end
     end

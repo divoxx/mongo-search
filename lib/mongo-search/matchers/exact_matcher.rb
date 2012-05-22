@@ -7,7 +7,7 @@ module MongoSearch
 
       def call(params)
         filters = {}
-        filters[@attr] = params[@attr] if params[@attr]
+        filters[@attr] = params[@attr] if params[@attr] && !params[@attr].empty?
         filters
       end
     end

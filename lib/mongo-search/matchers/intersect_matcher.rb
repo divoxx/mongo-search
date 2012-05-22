@@ -8,7 +8,7 @@ module MongoSearch
       def call(params)
         filters = {}
 
-        if params[@attr]
+        if params[@attr] && !params[@attr].empty?
           value = params[@attr]
           filters[@attr] = {:$all => Converters[:array].call(value)}
         end
