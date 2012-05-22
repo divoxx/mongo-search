@@ -14,6 +14,7 @@ describe "Search integration" do
       c.match :name
       c.exact :status
       c.intersect :tags
+      c.less_than :updated_before, :field => :updated_at, :type => :time, :equal => true
       c.greater_than :updated_since, :field => :updated_at, :type => :time, :equal => true
       c.sort_with :order, :default => "name asc"
     end
@@ -39,10 +40,16 @@ describe "Search integration" do
     c.should == {:tags => {:$all => ['foo', 'bar']}}
   end
 
-  it "matches a parameters against a time span between a field and now " do
+  it "matches a parameter against a field using greater than op" do
     time = Time.parse("2012-01-10T22:10:01Z")
     c, _ = subject.criteria_for :updated_since => time.strftime("%Y-%m-%dT%H:%M:%SZ")
     c.should == {:updated_at => {:$gte => time}}
+  end
+
+  it "matches a parameter against a field using less than op" do
+    time = Time.parse("2012-01-10T22:10:01Z")
+    c, _ = subject.criteria_for :updated_before => time.strftime("%Y-%m-%dT%H:%M:%SZ")
+    c.should == {:updated_at => {:$lte => time}}
   end
 
   it "uses specified sorting and includes a _ordenacao prefix also" do

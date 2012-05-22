@@ -1,11 +1,11 @@
 module MongoSearch
   module Matchers
-    class GreaterThanMatcher
+    class LessThanMatcher
       def initialize(attr, opts = nil)
         opts ||= {}
         @attr     = attr
         @field    = opts[:field] || attr
-        @operator = opts[:equal] ? :$gte : :$gt
+        @operator = opts[:equal] ? :$lte : :$lt
         @conv     = Converters[opts[:type]]
       end
 

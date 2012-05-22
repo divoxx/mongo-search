@@ -20,6 +20,10 @@ module MongoSearch
       @search << Matchers::GreaterThanMatcher.new(attr, opts)
     end
 
+    def less_than(attr, opts = nil)
+      @search << Matchers::LessThanMatcher.new(attr, opts)
+    end
+
     def sort_with(attr, opts = nil)
       @search.sorter = Sorter.new(attr, opts)
     end
