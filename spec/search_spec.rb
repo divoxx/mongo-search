@@ -16,7 +16,7 @@ describe "Search integration" do
       c.intersect :tags
       c.less_than :updated_before, :field => :updated_at, :type => :time, :equal => true
       c.greater_than :updated_since, :field => :updated_at, :type => :time, :equal => true
-      c.sort_with :order, :default => "name asc"
+      c.sort_with :order, :default => "name asc", :mappings => {:titulo => :titulo_ordenacao}
     end
   end
 
@@ -52,19 +52,18 @@ describe "Search integration" do
     c.should == {:updated_at => {:$lte => time}}
   end
 
-  it "uses specified sorting and includes a _ordenacao prefix also" do
+  it "uses specified sorting respecting custom mappings" do
     _, s = subject.criteria_for :order => "titulo desc"
-    s.should == [[:titulo_ordenacao, :desc], [:titulo, :desc]]
+    s.should == [[:titulo_ordenacao, :desc]]
   end
 
-  it "defaults sorting direction to asc if not specified" do
+  it "combine sortings properly" do
     _, s = subject.criteria_for :order => "titulo, categoria"
-    s.should include([:titulo, :asc])
-    s.should include([:categoria, :asc])
+    s.should == [[:titulo_ordenacao, :asc], [:categoria, :asc]]
   end
 
   it "uses default sorting if no specified" do
     _, s = subject.criteria_for({})
-    s.should == [[:name_ordenacao, :asc], [:name, :asc]]
+    s.should == [[:name, :asc]]
   end
 end
