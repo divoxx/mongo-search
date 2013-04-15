@@ -15,7 +15,7 @@ module MongoSearch
         {
           :$or => [
             { :titulo => value },
-            { :tags => {:$in => [value]} }
+            { :tags => {:$all => [value]} }
           ]
         }
       end
