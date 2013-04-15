@@ -17,16 +17,17 @@ describe "Search integration" do
       c.less_than :updated_before, :field => :updated_at, :type => :time, :equal => true
       c.greater_than :updated_since, :field => :updated_at, :type => :time, :equal => true
       c.sort_with :order, :default => "name asc", :mappings => {:titulo => :titulo_ordenacao}
-      c.or :titulo_ou_tags 
+      c.or :matchers => [c.match(:nome), c.intersect(:tags)]
     end
   end
 
   it "accepts an $or clause" do
-    c, _ = subject.criteria_for :titulo_ou_tags => 'um titulo'
+    debugger
+    c, _ = subject.criteria_for :nome => 'um titulo', :tags => 'um tags'
     c.should == {
       :$or => [
-        { :titulo => 'um titulo' },
-        { :tags => { :$all => ['um titulo'] } }
+        { :nome => 'um titulo' },
+        { :tags => { :$all => ['um tags'] } }
       ]
     }
   end

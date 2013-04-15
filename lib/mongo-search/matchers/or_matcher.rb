@@ -1,23 +1,18 @@
 module MongoSearch
   module Matchers
     class OrMatcher
-      def initialize(attr)
-        @attr = attr
+      def initialize(matchers)
+        @matchers = matchers
       end
 
       def call(params)
 
-        value = params[@attr]
+        puts @matchers.inspect
+        mongo_matchers = @matchers.map do |matcher|
+          matcher.call(params)
+        end
 
-        return {} unless value
-
-        #TODO should be generalized for any field
-        {
-          :$or => [
-            { :titulo => value },
-            { :tags => {:$all => [value]} }
-          ]
-        }
+        { :$or => mongo_matchers }
       end
     end
   end
