@@ -14,7 +14,7 @@ module MongoSearch
         #TODO should be generalized for any field
         {
           :$or => [
-            { :titulo => value },
+            { :titulo_ordenacao => /#{Regexp.escape(value)}/i },
             { :tags => {:$all => [value]} }
           ]
         }

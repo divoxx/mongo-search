@@ -15,7 +15,7 @@ describe 'Or Matcher' do
     let(:conditional) do
       {
         :$or => [
-          {:titulo => 'um titulo' }, {:tags => { :$all => ['um titulo'] }}
+          {:titulo_ordenacao => /um\ titulo/i }, {:tags => { :$all => ['um titulo'] }}
         ]
       }
     end

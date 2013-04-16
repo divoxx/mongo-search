@@ -25,7 +25,7 @@ describe "Search integration" do
     c, _ = subject.criteria_for :titulo_ou_tags => 'um titulo'
     c.should == {
       :$or => [
-        { :titulo => 'um titulo' },
+        { :titulo_ordenacao => /um\ titulo/i },
         { :tags => { :$all => ['um titulo'] } }
       ]
     }
