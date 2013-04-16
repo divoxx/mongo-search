@@ -15,7 +15,7 @@ module MongoSearch
         {
           :$or => [
             { :titulo_ordenacao => /#{Regexp.escape(value)}/i },
-            { :tags => {:$all => [value]} }
+            { :tags => {:$all => Converters[:array].call(value)} }
           ]
         }
       end

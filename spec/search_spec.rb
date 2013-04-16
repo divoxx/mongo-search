@@ -22,11 +22,11 @@ describe "Search integration" do
   end
 
   it "accepts an $or clause" do
-    c, _ = subject.criteria_for :titulo_ou_tags => 'um titulo'
+    c, _ = subject.criteria_for :titulo_ou_tags => 'tag1, tag2'
     c.should == {
       :$or => [
-        { :titulo_ordenacao => /um\ titulo/i },
-        { :tags => { :$all => ['um titulo'] } }
+        { :titulo_ordenacao => /tag1,\ tag2/i },
+        { :tags => { :$all => ['tag1', 'tag2'] } }
       ]
     }
   end
