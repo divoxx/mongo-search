@@ -17,17 +17,19 @@ describe "Search integration" do
       c.less_than :updated_before, :field => :updated_at, :type => :time, :equal => true
       c.greater_than :updated_since, :field => :updated_at, :type => :time, :equal => true
       c.sort_with :order, :default => "name asc", :mappings => {:titulo => :titulo_ordenacao}
-      c.or :matchers => [c.match(:nome), c.intersect(:tags)]
+      c.or [
+        {:match => MongoSearch::Matchers::PartialMatcher, :field => :titulo_ordenacao, :attr => :titulo_ou_tags},
+        {:match => MongoSearch::Matchers::IntersectMatcher, :field => :tags, :attr => :titulo_ou_tags}
+      ]
     end
   end
 
   it "accepts an $or clause" do
-    debugger
-    c, _ = subject.criteria_for :nome => 'um titulo', :tags => 'um tags'
+    c, _ = subject.criteria_for :titulo_ou_tags => 'tag1, tag2'
     c.should == {
       :$or => [
-        { :nome => 'um titulo' },
-        { :tags => { :$all => ['um tags'] } }
+        { :titulo_ordenacao => /tag1,\ tag2/i },
+        { :tags => { :$all => ['tag1', 'tag2'] } }
       ]
     }
   end

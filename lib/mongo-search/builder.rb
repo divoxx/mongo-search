@@ -28,9 +28,8 @@ module MongoSearch
       @search.sorter = Sorter.new(attr, opts)
     end
 
-    def or(*attr)
-      debugger
-      @search << Matchers::OrMatcher.new(attr)
+    def or(options)
+      @search << Matchers::OrMatcher.new(options)
     end
   end
 end

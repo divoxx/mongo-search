@@ -2,17 +2,22 @@ module MongoSearch
   module Matchers
     class OrMatcher
       def initialize(matchers)
-        @matchers = matchers
+        @matchers = []
+        matchers.each do |m|
+          @matchers << m[:match].new(m[:attr]) unless m[:field]
+          @matchers << m[:match].new(m[:attr], m[:field]) if m[:field]
+        end
       end
 
       def call(params)
-
-        puts @matchers.inspect
         mongo_matchers = @matchers.map do |matcher|
-          matcher.call(params)
-        end
+          expression = matcher.call(params)
+          nil if expression.empty?
+          expression if !expression.empty?
+        end.compact
 
-        { :$or => mongo_matchers }
+        return { :$or => mongo_matchers } if !mongo_matchers.empty?
+        return {}
       end
     end
   end
