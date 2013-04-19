@@ -20,3 +20,4 @@ doc/
 # Vim
 *.swo
 *.swp
+.rvmrc

@@ -1,13 +1,14 @@
 module MongoSearch
   module Matchers
     class ExactMatcher
-      def initialize(attr)
-        @attr = attr
+      def initialize(attr, field = nil)
+        @attr = @field = attr
+        @field = field if field
       end
 
       def call(params)
         filters = {}
-        filters[@attr] = params[@attr] if params[@attr] && !params[@attr].empty?
+        filters[@field] = params[@attr] if params[@attr] && !params[@attr].empty?
         filters
       end
     end

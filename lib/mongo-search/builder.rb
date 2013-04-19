@@ -27,5 +27,9 @@ module MongoSearch
     def sort_with(attr, opts = nil)
       @search.sorter = Sorter.new(attr, opts)
     end
+
+    def or(options)
+      @search << Matchers::OrMatcher.new(options)
+    end
   end
 end

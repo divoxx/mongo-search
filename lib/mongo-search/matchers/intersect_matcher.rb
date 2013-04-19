@@ -1,8 +1,9 @@
 module MongoSearch
   module Matchers
     class IntersectMatcher
-      def initialize(attr)
-        @attr = attr
+      def initialize(attr, field = nil)
+        @attr = @field = attr
+        @field = field if field
       end
 
       def call(params)
@@ -10,7 +11,7 @@ module MongoSearch
 
         if params[@attr] && !params[@attr].empty?
           value = params[@attr]
-          filters[@attr] = {:$all => Converters[:array].call(value)}
+          filters[@field] = {:$all => Converters[:array].call(value)}
         end
 
         filters
